@@ -2,3 +2,5 @@
 
 
 ### KrakenD
+
+install in mac : `brew install krakend`
