@@ -21,3 +21,7 @@ for jsut JSON object
 
 ```
 
+
+### matrix
+check this api point : http://localhost:8090/__stats
+
