@@ -4,38 +4,60 @@
 	"timeout": "3s",
 	"cache_ttl": "300s",
 	"port": 8080,
-	"host": ["http://localhost:8000"],
 	"endpoints": [
 		{
 			"endpoint": "/v1/test",
-      "output_encoding":"json",
+			"output_encoding": "json",
 			"backend": [
 				{
 					"url_pattern": "/test",
-          "encoding":"json"
+					"host": ["http://localhost:8000"],
+					"encoding": "json"
 				}
 			]
 		},
-    {
+		{
 			"endpoint": "/",
-      "output_encoding":"json",
+			"output_encoding": "json",
 			"backend": [
 				{
 					"url_pattern": "/",
-          "encoding":"json",
-          "is_collection":true 
+					"host": ["http://localhost:8000"],
+					"encoding": "json",
+					"is_collection": true
 				}
 			]
+		},
+		{
+			"endpoint": "/chain/{id}",
+			"output_encoding": "json",
+			"backend": [
+				{
+					"host": ["http://localhost:8000"],
+					"url_pattern": "/chain1/{id}",
+					"encoding": "json"
+				},
+				{
+					"host": ["http://localhost:8000"],
+					"url_pattern": "/chain2/{resp0_destination_id}",
+					"encoding": "json"
+				}
+			],
+			"extra_config": {
+				"proxy": {
+					"sequential": true
+				}
+			}
 		}
 	],
 	"extra_config": {
-    "telemetry/metrics": {
-      "collection_time": "60s",
-      "proxy_disabled": false,
-      "router_disabled": false,
-      "backend_disabled": false,
-      "endpoint_disabled": false,
-      "listen_address": ":8090"
-    }
-  }
+		"telemetry/metrics": {
+			"collection_time": "60s",
+			"proxy_disabled": false,
+			"router_disabled": false,
+			"backend_disabled": false,
+			"endpoint_disabled": false,
+			"listen_address": ":8090"
+		}
+	}
 }
