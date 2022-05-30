@@ -1,0 +1,15 @@
+###
+GET http://localhost:3000
+
+
+
+###
+PUT http://localhost:3000/example/11/67
+App
+
+###
+PUT http://localhost:3000/test
+content-type: application/json
+
+###
+PUT http://localhost:3000/test/11
