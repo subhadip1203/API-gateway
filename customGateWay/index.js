@@ -1,23 +1,29 @@
-const http = require('http')
-const router = require('find-my-way')()
+const http = require("http");
+const router = require("find-my-way")();
+const config = require("./config");
 
+config.forEach((v) => {
+	router.all(v.endpoint, (req, res, params) => {
+		// console.log(req.headers);
+    console.log(params)
+		res.end(`{"message": "${v.endpoint}"}`);
+	});
+});
 
-
-router.all('/test', (req, res, params) => {
-  console.log(req.headers)
-  res.end('{"message":"hello world"}')
-})
-router.all('/test/:userId', (req, res, params) => {
-  console.log(params)
-  res.end('{"message":"hello world1"}')
-})
-
+// router.all('/test', (req, res, params) => {
+//   console.log(req.headers)
+//   res.end('{"message":"hello world"}')
+// })
+// router.all('/test/:userId', (req, res, params) => {
+//   console.log(params)
+//   res.end('{"message":"hello world1"}')
+// })
 
 const server = http.createServer((req, res) => {
-  router.lookup(req, res)
-})
+	router.lookup(req, res);
+});
 
-server.listen(3000, err => {
-  if (err) throw err
-  console.log('Server listening on: http://localhost:3000')
-})
+server.listen(3000, (err) => {
+	if (err) throw err;
+	console.log("Server listening on: http://localhost:3000");
+});
