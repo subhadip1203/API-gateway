@@ -8,8 +8,8 @@ PUT http://localhost:3000/example/11/67
 App
 
 ###
-PUT http://localhost:3000/test
+PUT http://localhost:3000/v1/test
 content-type: application/json
 
 ###
-PUT http://localhost:3000/test/11
+PUT http://localhost:3000/v1/test/10

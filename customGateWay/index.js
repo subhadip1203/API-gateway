@@ -4,20 +4,12 @@ const config = require("./config");
 
 config.forEach((v) => {
 	router.all(v.endpoint, (req, res, params) => {
-		// console.log(req.headers);
-    console.log(params)
+		const headers = req.headers;
+    const params = params
 		res.end(`{"message": "${v.endpoint}"}`);
 	});
 });
 
-// router.all('/test', (req, res, params) => {
-//   console.log(req.headers)
-//   res.end('{"message":"hello world"}')
-// })
-// router.all('/test/:userId', (req, res, params) => {
-//   console.log(params)
-//   res.end('{"message":"hello world1"}')
-// })
 
 const server = http.createServer((req, res) => {
 	router.lookup(req, res);
