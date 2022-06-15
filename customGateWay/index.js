@@ -3,9 +3,10 @@ const router = require("find-my-way")();
 const config = require("./config");
 
 config.forEach((v) => {
+	console.log("running ...")
 	router.all(v.endpoint, (req, res, params) => {
 		const headers = req.headers;
-    const params = params
+		console.log(params)
 		res.end(`{"message": "${v.endpoint}"}`);
 	});
 });

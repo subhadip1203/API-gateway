@@ -13,3 +13,7 @@ content-type: application/json
 
 ###
 PUT http://localhost:3000/v1/test/10
+
+
+###
+GET http://localhost:3000/v1/test/ok/hi/01
