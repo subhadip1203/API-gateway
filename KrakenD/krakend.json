@@ -17,6 +17,18 @@
 			]
 		},
 		{
+			"endpoint": "/placeholder",
+			"output_encoding": "json",
+			"backend": [
+				{
+					"url_pattern": "/users",
+					"host": ["https://jsonplaceholder.typicode.com"],
+					"encoding": "json",
+					"is_collection": true
+				}
+			]
+		},
+		{
 			"endpoint": "/",
 			"output_encoding": "json",
 			"backend": [
