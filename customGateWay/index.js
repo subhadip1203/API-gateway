@@ -1,16 +1,15 @@
-const http = require("http");
+const axios = require("axios");
 const router = require("find-my-way")();
 const config = require("./config");
 
 config.forEach((v) => {
-	console.log("running ...")
+	console.log("running ...");
 	router.all(v.endpoint, (req, res, params) => {
 		const headers = req.headers;
-		console.log(params)
+		console.log(params);
 		res.end(`{"message": "${v.endpoint}"}`);
 	});
 });
-
 
 const server = http.createServer((req, res) => {
 	router.lookup(req, res);
