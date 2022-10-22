@@ -3,10 +3,21 @@ const axios = require("axios");
 
 async function request(method, url, options) {
   try{
-    const data = axios({method,url,...options})
+    console.log({method,url,...options})
+    const ApiResult = await axios({method,url,...options})
+    if(ApiResult && ApiResult.data){
+      const returnData = ApiResult.data;
+      console.log(returnData)
+      return returnData
+    }
+    else{
+      console.log('ApiResult', ApiResult)
+      return []
+    }
   }
   catch(err){
-    return null
+    console.log(err)
+    return [0]
   }
 }
 

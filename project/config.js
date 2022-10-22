@@ -3,7 +3,11 @@ const config = [
 		endpoint: "/v1/test" , 
 		destination: [{
 			method: 'GET',
-			url: 'https://jsonplaceholder.typicode.com/todos/1'
+			url: 'https://jsonplaceholder.typicode.com/todos/1',
+			response: {
+				name: 'data',
+				type: 'JSON'
+			}
 		}] 
 	},
 	{endpoint: "/v1/test/:id"},
