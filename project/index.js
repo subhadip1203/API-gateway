@@ -1,7 +1,7 @@
 
 const router = require("find-my-way")();
 const config = require("./config");
-
+const request = require("./axios")
 
 config.forEach((v) => {
 	console.log("running ...");
