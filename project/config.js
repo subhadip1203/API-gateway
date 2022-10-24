@@ -1,6 +1,7 @@
 const config = [
 	{
-		endpoint: "/v1/test" , 
+		endpoint: "/v1/test",
+		chain: true,
 		destination: [{
 			method: 'GET',
 			url: 'https://jsonplaceholder.typicode.com/todos/1',
@@ -8,11 +9,24 @@ const config = [
 				name: 'data',
 				type: 'JSON'
 			}
-		}] 
+		}, {
+			input: {
+				type: 'one-to-one',
+				values:{
+					':id': "data.id"
+				}	
+			},
+			method: 'GET',
+			url: 'https://jsonplaceholder.typicode.com/todos/:id',
+			response: {
+				name: 'data',
+				type: 'JSON'
+			}
+		}]
 	},
-	{endpoint: "/v1/test/:id"},
-	{endpoint: "/v1/test/ok/*"},
-	{endpoint: "/example"},
+	{ endpoint: "/v1/test/:id" },
+	{ endpoint: "/v1/test/ok/*" },
+	{ endpoint: "/example" },
 ];
 
 module.exports = config
