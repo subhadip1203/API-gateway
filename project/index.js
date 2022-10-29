@@ -8,19 +8,30 @@ config.forEach((v) => {
 	router.all(v.endpoint, async (req, res, params) => {
 		const headers = req.headers;
 		const method = req.method;
-		let result = null
+		let result = {}
 		let response = null
 		console.log(params);
-		for await (const v2 of v.destination) {
-			const secondaryMethod = v2.method || method;
-			const options = {}
-			result = await request(secondaryMethod, v2.url, options)
-			if (v2.response) {
-				response = v2.response
+		const chainLength = v.destination.length || 1
+
+		if(chainLength == 1){
+			// Making API call
+			const ApiCallData = SingleAPICall(v.destination[0])
+			// checking type of response according to config file
+			const type = v?.destination[0]?.response?.type  || 'text'
+			// converting data into JSON if type is JSON
+			const Modifieddata =  type === 'JSON' ? JSON.parse(ApiCallData): ApiCallData
+			// if config file has a name to response , then creating key from the name
+			const key = v.destination[0].response.name || null
+			if(key){
+				result[key] = Modifieddata
 			}
-			console.log(response)
+			else{
+				result = Modifieddata
+			}
 		}
-		if (response && response.type === 'JSON') {
+
+		
+		if (typeof result ==='object' && response && response.type === 'JSON') {
 			res.end(JSON.stringify(result));
 		}
 		else {
@@ -30,7 +41,8 @@ config.forEach((v) => {
 	});
 });
 
-//{"userId":1,"id":1,"title":"delectus aut autem","completed":false}
+
+
 
 const server = http.createServer((req, res) => {
 	router.lookup(req, res);
