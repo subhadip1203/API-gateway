@@ -1,5 +1,6 @@
-function replaceUrl(url, obj) {
+function replaceUrl(url, obj, input) {
     try {
+        console.log(url, obj)
         const err = []
         const arr = url.split("/")
         for (let i = 0; i <= arr.length; i++) {
@@ -24,3 +25,5 @@ function replaceUrl(url, obj) {
     }
 
 }
+
+module.exports = replaceUrl

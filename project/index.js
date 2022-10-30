@@ -2,6 +2,8 @@ const http = require("http")
 const router = require("find-my-way")();
 const config = require("./config");
 const request = require("./axios")
+const replaceUrl = require('./helper/urlReplacer')
+const { SingleAPICall } = require('./helper/singleCall')
 
 config.forEach((v) => {
 	console.log("running ...");
@@ -12,30 +14,33 @@ config.forEach((v) => {
 		let response = null
 		console.log(params);
 		const chainLength = v.destination.length || 1
-
-		if(chainLength == 1){
+		console.log(chainLength)
+		if (chainLength == 1) {
+			// replace url dynamic value
+			const newUrl = replaceUrl(v.destination[0].url, params)
 			// Making API call
-			const ApiCallData = SingleAPICall(v.destination[0])
+			console.log(newUrl)
+			const ApiCallData = await SingleAPICall({ ...v.destination[0], url: newUrl })
 			// checking type of response according to config file
-			const type = v?.destination[0]?.response?.type  || 'text'
+			const type = v?.destination[0]?.response?.type || 'text'
 			// converting data into JSON if type is JSON
-			const Modifieddata =  type === 'JSON' ? JSON.parse(ApiCallData): ApiCallData
+			const Modifieddata = type === 'JSON' ? JSON.parse(ApiCallData) : ApiCallData
 			// if config file has a name to response , then creating key from the name
 			const key = v.destination[0].response.name || null
-			if(key){
+			if (key) {
 				result[key] = Modifieddata
 			}
-			else{
+			else {
 				result = Modifieddata
 			}
 		}
 
-		
-		if (typeof result ==='object' && response && response.type === 'JSON') {
+
+		if (typeof result === 'object' && response && response.type === 'JSON') {
 			res.end(JSON.stringify(result));
 		}
 		else {
-			res.end(result);
+			res.end(JSON.stringify(result));
 		}
 
 	});

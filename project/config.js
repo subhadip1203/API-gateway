@@ -12,11 +12,27 @@ const config = [
 		}, {
 			input: {
 				type: 'one-to-one',
-				values:{
+				values: {
 					':id': "data.id"
-				}	
+				}
 			},
 			method: 'GET',
+			url: 'https://jsonplaceholder.typicode.com/todos/:id',
+			response: {
+				name: 'data2',
+				type: 'JSON'
+			}
+		}]
+	},
+	{
+		endpoint: "/v1/test/:id", 
+		destination: [{
+			input: {
+				type: 'one-to-one',
+				values: {
+					':id': "id"
+				}
+			},
 			url: 'https://jsonplaceholder.typicode.com/todos/:id',
 			response: {
 				name: 'data',
@@ -24,7 +40,6 @@ const config = [
 			}
 		}]
 	},
-	{ endpoint: "/v1/test/:id" },
 	{ endpoint: "/v1/test/ok/*" },
 	{ endpoint: "/example" },
 ];
