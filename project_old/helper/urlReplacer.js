@@ -1,17 +1,12 @@
-function updateURL(url, paramInput) {
+function replaceUrl(url, obj, input) {
     try {
-        const newParamInputObj = {}
-        // adding : to object keys
-        for (const property in paramInput) {
-            newParamInputObj[':'+property]=paramInput[property];
-        }
-        
-        const arr = url.split("/")
+        console.log(url, obj)
         const err = []
+        const arr = url.split("/")
         for (let i = 0; i <= arr.length; i++) {
             if (arr[i] && arr[i].charAt(0) == ':') {
-                if (newParamInputObj[arr[i]]) {
-                    arr[i] = newParamInputObj[arr[i]]
+                if (obj[arr[i]]) {
+                    arr[i] = obj[arr[i]]
                 }
                 else {
                     err.push(arr[i])
@@ -22,7 +17,7 @@ function updateURL(url, paramInput) {
             throw new Error(`dynamic value require for ${JSON.stringify(err)}`, );
         }
         else {
-            return arr.join('/')
+            return arr
         }
 
     } catch (err) {
@@ -31,4 +26,4 @@ function updateURL(url, paramInput) {
 
 }
 
-module.exports = updateURL
+module.exports = replaceUrl
