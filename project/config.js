@@ -31,11 +31,17 @@ const config = [
 			response: { name: 'data' }
 		}]
 	},
-	{ endpoint: "/v1/test/ok/*" },
 	{
-		endpoint: "/example",
+		endpoint: "/v1/test/ok/*",
 		destination: [{
-			url: 'https://jsonplaceholder.typicode.com/todos/:id',
+			url: 'https://jsonplaceholder.typicode.com/*',
+			response: { name: 'data' }
+		}]
+	},
+	{
+		endpoint: "/post",
+		destination: [{
+			url: 'https://jsonplaceholder.typicode.com/posts',
 			response: { name: 'data' }
 		}]
 	},
