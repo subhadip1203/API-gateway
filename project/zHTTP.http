@@ -12,7 +12,11 @@ GET  http://localhost:3000/v1/test
 content-type: application/json
 
 ###
-POST http://localhost:3000/v1/test/10
+GET http://localhost:3000/v1/test/10
+content-type: application/json
+
+###
+POST http://localhost:3000/post
 content-type: application/json
 
 {
@@ -20,9 +24,12 @@ content-type: application/json
     "age" : 20
 }
 
+
 ###
 GET http://localhost:3000/example?id=10
 content-type: application/json
 
 
-#
+### /v1/test/ok/*
+GET http://localhost:3000/v1/test/ok/ok1/ok2/ok3
+content-type: application/json

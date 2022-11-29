@@ -26,6 +26,7 @@ function getReqBody(req) {
 config.forEach((v) => {
 	console.log("running ...");
 	router.all(v.endpoint, async (req, res, params) => {
+		let result = null
 		const method = req.method;
 		const headers = req.headers;
 		const body = await getReqBody(req)
@@ -36,14 +37,42 @@ config.forEach((v) => {
 		const paramInput = { ...params }
 		if (v.destination) {
 			for await (const v2 of v.destination) {
+
+				if(v2.paramInput){
+					for (const key in v2.paramInput) {
+						console.log("ok ok")
+						const source =  v2.paramInput[key].source
+						const modifiedvalue =  v2.paramInput[key].value(result[source])
+						paramInput[key] = modifiedvalue
+					}
+					console.log(paramInput)
+				}
+
+
 				const updatedURL = updateURL(v2.url, paramInput)
-				console.log(updatedURL)
+				// console.log(updatedURL)
+
+				
 				const APIcallData = await APIcall(method, updatedURL, 'JSON', {}, body)
-				console.log(v2.url, updatedURL, APIcallData)
+				if (v2.response_name) {
+					result = {}
+					result[v2.response_name] = APIcallData
+				}
+				else {
+					result = APIcallData
+				}
+				// console.log(v2.url, updatedURL, APIcallData)
 			}
 		}
+		if (typeof result === 'object') {
+			res.end(JSON.stringify(result));
+		}
+		else if (typeof result === 'string') {
+			res.end(result);
+		} else {
+			res.end('error');
+		}
 
-		res.end(`{"message": "${v.endpoint}"}`);
 	});
 });
 

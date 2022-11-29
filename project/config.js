@@ -1,48 +1,49 @@
 const config = [
-	// {
-	// 	endpoint: "/v1/test",
-	// 	chain: true,
-	// 	destination: [{
-	// 		method: 'GET',
-	// 		url: 'https://jsonplaceholder.typicode.com/todos/1',
-	// 		response: {
-	// 			name: 'data',
-	// 			type: 'JSON'
-	// 		}
-	// 	}, {
-	// 		input: {
-	// 			type: 'one-to-one',
-	// 			values: {
-	// 				':id': "data.id"
-	// 			}
-	// 		},
-	// 		method: 'GET',
-	// 		url: 'https://jsonplaceholder.typicode.com/todos/:id',
-	// 		response: {
-	// 			name: 'data2',
-	// 			type: 'JSON'
-	// 		}
-	// 	}]
-	// },
+	{
+		endpoint: "/v1/todos",
+		destination: [{
+			url: 'https://jsonplaceholder.typicode.com/todos',
+			response_name: 'data'
+		}]
+	},
 	{
 		endpoint: "/v1/test/:id",
 		destination: [{
 			url: 'https://jsonplaceholder.typicode.com/todos/:id',
-			response: { name: 'data' }
+			response_name: 'data'
 		}]
 	},
 	{
 		endpoint: "/v1/test/ok/*",
 		destination: [{
 			url: 'https://jsonplaceholder.typicode.com/*',
-			response: { name: 'data' }
+			response_name: 'data'
 		}]
 	},
 	{
 		endpoint: "/post",
 		destination: [{
 			url: 'https://jsonplaceholder.typicode.com/posts',
-			response: { name: 'data' }
+			response_name: 'data'
+		}]
+	},
+	{
+		endpoint: "/v1/test",
+		chain: true,
+		destination: [{
+			method: 'GET',
+			url: 'https://jsonplaceholder.typicode.com/todos/1',
+			response_name: 'data'
+		}, {
+			paramInput: {
+				'id': {
+					source: 'data',
+					value : (data) => data.id
+				}
+			},
+			method: 'GET',
+			url: 'https://jsonplaceholder.typicode.com/todos/:id',
+			response_name: 'data'
 		}]
 	},
 ];

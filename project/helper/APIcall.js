@@ -20,10 +20,10 @@ async function APIcall(Method, URL, responseType = 'JSON', Options, Data) {
     try {
 
         APIResult = await request(Method, URL, Options, Data)
-        console.log('APIResult', APIResult)
         if (APIResult.data) {
             if (responseType === 'JSON' || responseType === 'json' || responseType === 'Json') {
                 const APiResultData = JSON.parse(APIResult.data)
+                console.log(APiResultData)
                 return APiResultData
             } else {
                 return APIResult.data
