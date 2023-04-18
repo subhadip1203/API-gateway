@@ -4,7 +4,7 @@ const config = [{
         {
             method: 'GET',
             url: 'https://jsonplaceholder.typicode.com/todos/1',
-            response_name: 'x'
+            responseName: 'x'
         }, 
          {
             aggregator: ({x,id}) => {
@@ -12,7 +12,10 @@ const config = [{
             },
             method: 'GET',
             url: 'https://jsonplaceholder.typicode.com/todos/:id',
-            response_name: 'y'
+            responseName: 'y',
+            responseFunc : ({res,id}) => {
+                return res*id
+            }
         }
     ]
 }]

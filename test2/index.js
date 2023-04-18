@@ -3,7 +3,8 @@ const editConfig = require("./editConfig")
 
 function updateConfig() {
   try{
-    editConfig(config);
+    const routeConfig = editConfig(config);
+    console.log(JSON.stringify(routeConfig, null, 4))
   } catch(err){
     console.log(err.message)
   }

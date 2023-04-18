@@ -4,6 +4,11 @@ const subArrayChecker = require("./helpers/subArrayChecker");
 
 
 function editConfig(userConfig) {
+    /*======================================================
+    The config variable for creating routes
+    =======================================================*/
+    const serverFullConfig = []
+
     if (Array.isArray(userConfig)) {
         let configIndex = 0;
         for (const routeConfig of userConfig) {
@@ -47,19 +52,59 @@ function editConfig(userConfig) {
                         throw new Error(`Aggregator variable is not available : { config Index ${configIndex} , destination Index ${destinationIndex}  } `)
                     }
                 }
+                if (destinationConfig.responseFunc) {
+                    const outputFuncInputs = getParamNames(destinationConfig.responseFunc);
+                    const isAllVariablesAvailable = subArrayChecker([...availableVariables, 'res'], outputFuncInputs );
+                    if(!isAllVariablesAvailable){
+                        throw new Error(`response Func variable is not available : { config Index ${configIndex} , destination Index ${destinationIndex}  } `)
+                    }
+                }
 
                 /*======================================================
                 storing available variable needed for aggregation
                 =======================================================*/
-                availableVariables.push(destinationConfig.response_name);
+                availableVariables.push(destinationConfig.responseName);
                 destinationIndex++;
             }
-
-            
             configIndex++;
-      
+            /*======================================================
+                Error handling done
+            =======================================================*/
+
+            /*======================================================
+                editing config variable for express
+            =======================================================*/
+            const configRoute = {}
+            configRoute.incomingURL = routeConfig.incomingURL,
+            configRoute.incomingMethod =   routeConfig.incomingMethod || 'GET'
+            configRoute.params = reqParam ? reqParam : []
+            configRoute.destinations = []
+            for (const destinationConfig of routeConfig.destination) {
+                const destinationSetup = {
+                    outgoingURL : destinationConfig.url,
+                    outgoingMethod : destinationConfig.method,
+                    responseName : destinationConfig.responseName,  
+                }
+                
+                if(destinationConfig.aggregator){
+                    const aggregatorInputs = getParamNames(destinationConfig.aggregator);
+                    destinationSetup.inputVariables = [...aggregatorInputs]
+                    destinationSetup.aggregator = destinationConfig.aggregator
+                }
+                if(destinationConfig.responseFunc){
+                    const outputFuncInputs = getParamNames(destinationConfig.responseFunc);
+                    destinationSetup.outputFuncVariables = [...outputFuncInputs]
+                    destinationSetup.outputFunc = destinationConfig.responseFunc
+                }
+                configRoute.destinations.push(destinationSetup)
+            }
+
+            serverFullConfig.push(configRoute)
+
         }
     }
+
+    return serverFullConfig;
 }
 
 

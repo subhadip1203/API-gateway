@@ -1,4 +1,5 @@
 function subArrayChecker(mainArr,subArr) {
+    // console.log(mainArr,subArr)
     if(subArr.length == 0) {
         return true
     }
