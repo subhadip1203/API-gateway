@@ -1,15 +1,15 @@
+require("dotenv").config();
 const config = require("./config");
-const editConfig = require("./editConfig")
+const editConfig = require("./App/editConfig");
+const runServer = require("./App/serverConfig");
 
-function updateConfig() {
-  try{
+async function updateConfig() {
+  try {
     const routeConfig = editConfig(config);
-    console.log(JSON.stringify(routeConfig, null, 4))
-  } catch(err){
-    console.log(err.message)
+    await runServer(routeConfig)
+  } catch (err) {
+    console.log(err.message);
   }
-}
+};
 
-
-updateConfig()
-
+updateConfig();
