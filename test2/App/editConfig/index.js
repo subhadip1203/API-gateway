@@ -42,9 +42,25 @@ function editConfig(userConfig) {
             
             let destinationIndex = 0;
             for (const destinationConfig of routeConfig.destination) {
+                /*======================================================
+                Checking if no destination url provided
+                =======================================================*/
                 if (!destinationConfig.url) {
                     throw new Error(` Destination URL is mandetory : { config Index ${configIndex} , destination Index ${destinationIndex}  }`)
-                } 
+                }
+                /*======================================================
+                Checking if dynamic URL variables available
+                =======================================================*/ 
+                const dynamicParams = getRouteParams(destinationConfig.url)
+                if(dynamicParams){
+                    const isAllVariablesAvailable = subArrayChecker(availableVariables, dynamicParams );
+                    if(!isAllVariablesAvailable){
+                        throw new Error(`URL params is not available : { config Index ${configIndex} , destination Index ${destinationIndex}  } `)
+                    }
+                }
+                /*======================================================
+                Checking if aggegator variables available
+                =======================================================*/ 
                 if (destinationConfig.aggregator) {
                     const aggregatorInputs = getParamNames(destinationConfig.aggregator);
                     const isAllVariablesAvailable = subArrayChecker(availableVariables, aggregatorInputs );
@@ -52,6 +68,9 @@ function editConfig(userConfig) {
                         throw new Error(`Aggregator variable is not available : { config Index ${configIndex} , destination Index ${destinationIndex}  } `)
                     }
                 }
+                /*======================================================
+                Checking if response function variables available
+                =======================================================*/ 
                 if (destinationConfig.responseFunc) {
                     const outputFuncInputs = getParamNames(destinationConfig.responseFunc);
                     const isAllVariablesAvailable = subArrayChecker([...availableVariables, 'res'], outputFuncInputs );

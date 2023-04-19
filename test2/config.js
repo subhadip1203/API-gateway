@@ -1,9 +1,10 @@
 const config = [{
     incomingURL: "/v1/test/:id",
+    incomingMethod: "DELETE",
     destination: [
         {
             method: 'GET',
-            url: 'https://jsonplaceholder.typicode.com/todos/1',
+            url: 'https://jsonplaceholder.typicode.com/todos/:id',
             responseName: 'x'
         }, 
          {
@@ -11,7 +12,7 @@ const config = [{
                 return x.data/id;
             },
             method: 'GET',
-            url: 'https://jsonplaceholder.typicode.com/todos/:id',
+            url: 'https://jsonplaceholder.typicode.com/todos/:id/:x',
             responseName: 'y',
             responseFunc : ({res,id}) => {
                 return res*id
