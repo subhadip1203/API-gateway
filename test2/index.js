@@ -6,8 +6,7 @@ const runServer = require("./App/serverConfig");
 async function updateConfig() {
   try {
     const routeConfig = editConfig(config);
-    // console.log(JSON.stringify(routeConfig, null, 4));
-    await runServer(routeConfig)
+    // await runServer(routeConfig)
   } catch (err) {
     console.log(err.message);
   }

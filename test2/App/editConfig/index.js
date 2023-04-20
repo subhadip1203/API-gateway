@@ -7,7 +7,7 @@ function editConfig(userConfig) {
     /*======================================================
     The config variable for creating routes
     =======================================================*/
-    const serverFullConfig = []
+    const serverFullConfig = {}
 
     if (Array.isArray(userConfig)) {
         let configIndex = 0;
@@ -93,11 +93,28 @@ function editConfig(userConfig) {
             /*======================================================
                 editing config variable for express
             =======================================================*/
-            const configRoute = {}
-            configRoute.incomingURL = routeConfig.incomingURL,
-            configRoute.incomingMethod =   routeConfig.incomingMethod || 'GET'
-            configRoute.params = reqParam ? reqParam : []
-            configRoute.destinations = []
+
+            /*======================================================
+            check if route available
+            ========================================================*/
+            const incomingURL = routeConfig.incomingURL;
+          
+            if(!serverFullConfig[URL]){
+                serverFullConfig[URL]= {
+                    ALL : null,
+                    GET: null,
+                    POST: null,
+                    PUT: null,
+                    DELETE: null
+                }
+            }
+
+            const incomingMethod =   routeConfig.incomingMethod || 'ANY'
+            serverFullConfig[URL][incomingMethod]  = {
+                params : reqParam ? reqParam : [],
+                destinations : []
+            }
+           
             for (const destinationConfig of routeConfig.destination) {
                 const destinationSetup = {
                     outgoingURL : destinationConfig.url,
@@ -115,14 +132,13 @@ function editConfig(userConfig) {
                     destinationSetup.outputFuncVariables = [...outputFuncInputs]
                     destinationSetup.outputFunc = destinationConfig.responseFunc
                 }
-                configRoute.destinations.push(destinationSetup)
+                serverFullConfig[URL][incomingMethod].destinations.push(destinationSetup)
             }
-
-            serverFullConfig.push(configRoute)
 
         }
     }
 
+    console.log(serverFullConfig)
     return serverFullConfig;
 }
 
