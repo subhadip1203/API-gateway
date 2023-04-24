@@ -1,24 +1,36 @@
 const config = [{
     incomingURL: "/v1/test/:id",
-    incomingMethod: "DELETE",
+    incomingMethod: "POST",
     destination: [
         {
-            method: 'GET',
-            url: 'https://jsonplaceholder.typicode.com/todos/:id',
+            url: 'https://jsonplaceholder.typicode.com/todos/:id/:body_name',
             responseName: 'x'
-        }, 
-         {
-            aggregator: ({x,id}) => {
-                return x.data/id;
-            },
-            method: 'GET',
-            url: 'https://jsonplaceholder.typicode.com/todos/:id/:x',
-            responseName: 'y',
-            responseFunc : ({res,id}) => {
-                return res*id
-            }
         }
     ]
 }]
+
+
+// const config = [{
+//     incomingURL: "/v1/test/:id",
+//     incomingMethod: "DELETE",
+//     destination: [
+//         {
+//             method: 'GET',
+//             url: 'https://jsonplaceholder.typicode.com/todos/:id',
+//             responseName: 'x'
+//         }, 
+//          {
+//             input: ({x,id}) => {
+//                 return x.data/id;
+//             },
+//             method: 'GET',
+//             url: 'https://jsonplaceholder.typicode.com/todos/:id/:x',
+//             responseName: 'y',
+//             responseFunc : ({res,id}) => {
+//                 return res*id
+//             }
+//         }
+//     ]
+// }]
 
 module.exports = config;

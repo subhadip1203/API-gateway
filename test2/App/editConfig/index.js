@@ -61,11 +61,11 @@ function editConfig(userConfig) {
                 /*======================================================
                 Checking if aggegator variables available
                 =======================================================*/ 
-                if (destinationConfig.aggregator) {
-                    const aggregatorInputs = getParamNames(destinationConfig.aggregator);
-                    const isAllVariablesAvailable = subArrayChecker(availableVariables, aggregatorInputs );
+                if (destinationConfig.input) {
+                    const inputInputs = getParamNames(destinationConfig.input);
+                    const isAllVariablesAvailable = subArrayChecker(availableVariables, inputInputs );
                     if(!isAllVariablesAvailable){
-                        throw new Error(`Aggregator variable is not available : { config Index ${configIndex} , destination Index ${destinationIndex}  } `)
+                        throw new Error(`Input variable is not available : { config Index ${configIndex} , destination Index ${destinationIndex}  } `)
                     }
                 }
                 /*======================================================
@@ -99,9 +99,9 @@ function editConfig(userConfig) {
             ========================================================*/
             const incomingURL = routeConfig.incomingURL;
           
-            if(!serverFullConfig[URL]){
-                serverFullConfig[URL]= {
-                    ALL : null,
+            if(!serverFullConfig[incomingURL]){
+                serverFullConfig[incomingURL]= {
+                    ANY : null,
                     GET: null,
                     POST: null,
                     PUT: null,
@@ -110,7 +110,7 @@ function editConfig(userConfig) {
             }
 
             const incomingMethod =   routeConfig.incomingMethod || 'ANY'
-            serverFullConfig[URL][incomingMethod]  = {
+            serverFullConfig[incomingURL][incomingMethod]  = {
                 params : reqParam ? reqParam : [],
                 destinations : []
             }
@@ -118,27 +118,25 @@ function editConfig(userConfig) {
             for (const destinationConfig of routeConfig.destination) {
                 const destinationSetup = {
                     outgoingURL : destinationConfig.url,
-                    outgoingMethod : destinationConfig.method,
+                    outgoingMethod : destinationConfig.method || incomingMethod,
                     responseName : destinationConfig.responseName,  
                 }
                 
-                if(destinationConfig.aggregator){
-                    const aggregatorInputs = getParamNames(destinationConfig.aggregator);
-                    destinationSetup.inputVariables = [...aggregatorInputs]
-                    destinationSetup.aggregator = destinationConfig.aggregator
+                if(destinationConfig.input){
+                    const inputInputs = getParamNames(destinationConfig.input);
+                    destinationSetup.inputVariables = [...inputInputs]
+                    destinationSetup.input = destinationConfig.input
                 }
                 if(destinationConfig.responseFunc){
                     const outputFuncInputs = getParamNames(destinationConfig.responseFunc);
                     destinationSetup.outputFuncVariables = [...outputFuncInputs]
                     destinationSetup.outputFunc = destinationConfig.responseFunc
                 }
-                serverFullConfig[URL][incomingMethod].destinations.push(destinationSetup)
+                serverFullConfig[incomingURL][incomingMethod].destinations.push(destinationSetup)
             }
 
         }
     }
-
-    console.log(serverFullConfig)
     return serverFullConfig;
 }
 
