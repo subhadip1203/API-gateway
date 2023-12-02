@@ -5,7 +5,7 @@ GET http://localhost:8000/v1/test/12
 DELETE  http://localhost:8000/v1/test/12
 
 ###
-POST http://localhost:8000/v1/test/12
+GET http://localhost:8000/v1/test/12
 Content-Type: application/json
 
 {

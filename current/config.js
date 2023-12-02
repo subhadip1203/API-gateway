@@ -1,18 +1,32 @@
 const config = [{
     incomingURL: "/v1/test/:id",
-    incomingMethod: "POST",
+    incomingMethod: "GET",
     destination: [
         {
-            url: 'https://jsonplaceholder.typicode.com/todos/:id/:body_name',
+            url: 'https://jsonplaceholder.typicode.com/todos/:id',
+            method: "GET",
             responseName: 'x'
+        },
+        {
+            url: 'https://jsonplaceholder.typicode.com/todos/:x.userId',
+            method: "GET",
+            responseName: 'y'
         }
-    ]
-}]
+    ],
+    result: {
+        product : ["x.id" , "x.title"] , 
+        user : { 
+            id : "y.id" , 
+            title : "y.title"
+        }
+    }
+},
 
 
-// const config = [{
+
+// {
 //     incomingURL: "/v1/test/:id",
-//     incomingMethod: "DELETE",
+//     incomingMethod: "GET",
 //     destination: [
 //         {
 //             method: 'GET',
@@ -31,6 +45,7 @@ const config = [{
 //             }
 //         }
 //     ]
-// }]
+// }
+]
 
 module.exports = config;

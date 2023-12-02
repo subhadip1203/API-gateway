@@ -1,16 +1,62 @@
 require("dotenv").config();
 const config = require("./config");
-const editConfig = require("./App/editConfig");
-const runServer = require("./App/serverConfig");
+const express = require('express');
+const cookieParser = require('cookie-parser');
 
-async function updateConfig() {
-  try {
-    const routeConfig = editConfig(config);
-    // console.log(JSON.stringify(routeConfig, null, 4));
-    await runServer(routeConfig)
-  } catch (err) {
-    console.log(err.message)
-  }
-};
+const apiCalls = require("./apiCalls/index")
 
-updateConfig();
+const app = express();
+
+app.use(cookieParser());
+app.use(express.json());
+
+
+
+config.forEach((route) =>  {
+    
+    if (route.incomingMethod === 'GET'){
+        app.get(route.incomingURL, async (req , res) => {
+            try{
+                const requestParams = req.params
+                const requestbody = req.body
+                const result = await apiCalls(route.destination , route.result,  requestParams , requestbody)
+                res.send(result)
+            } catch(err){
+                console.log(err)
+                res.status(500).send({ errmsg: err.message})
+            }
+        })
+
+    } else if(route.incomingMethod === 'POST'){
+        app.post(route.incomingURL, async function(req , res){
+            res.send({ok:'ok'})
+        })
+
+    } else if(route.incomingMethod === 'PUT'){
+        app.put(route.incomingURL, async function(req , res){
+            res.send({ok:'ok'})
+        })
+        
+    } else if(route.incomingMethod === 'PATCH'){
+        app.patch(route.incomingURL, async function(req , res){
+            res.send({ok:'ok'})
+        })
+        
+    }else if(route.incomingMethod === 'DELETE'){
+        app.delete(route.incomingURL, async function(req , res){
+            res.send({ok:'ok'})
+        })
+    } else {
+        app.all(route.incomingURL, async function(req , res){
+            res.send({ok:'ok'})
+        })
+    } 
+})
+
+/*====================================================
+creating server
+=====================================================*/
+const port = process.env.SERVER_PORT || 3000;
+app.listen(port, () => {
+    console.log(`App running on http://localhost:${port}`);
+});
