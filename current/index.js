@@ -3,7 +3,7 @@ const config = require("./config");
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
-const apiCalls = require("./apiCalls/index")
+const apiCalls = require("./apiCalls/controller.js")
 
 const app = express();
 

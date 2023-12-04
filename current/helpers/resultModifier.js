@@ -29,9 +29,14 @@ function resultModifier(obj, source) {
         }
         return newObj;
     } else {
-        const keyArr = obj.split('.')
-        value = findValue(source, keyArr)
-        return value
+        if(obj.includes('.')){
+            const keyArr = obj.split('.')
+            value = findValue(source, keyArr)
+            return value
+        } else{
+            return obj
+        }
+        
     }
 
 

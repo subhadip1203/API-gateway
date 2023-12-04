@@ -8,8 +8,13 @@ const config = [{
             responseName: 'x'
         },
         {
-            url: 'https://jsonplaceholder.typicode.com/todos/:x.userId',
-            method: "GET",
+            url: 'https://jsonplaceholder.typicode.com/posts',
+            method: "POST",
+            dataToSend: {
+                title: 'foo',
+                body: 'bar',
+                userId: "x.userId"
+            },
             responseName: 'y'
         }
     ],
