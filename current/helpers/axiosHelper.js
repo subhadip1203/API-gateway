@@ -4,7 +4,7 @@ const axios = require('axios');
 async function getCall(url) {
     try{
         const res_data = await axios.get(url)
-        if( res_data.statusText == 'OK'){
+        if( res_data.status >= 200 && res_data.status < 300){
             return res_data.data
         } else{
             throw new Error("Error  Method : GET -  URL : "+url);
@@ -17,7 +17,6 @@ async function getCall(url) {
 }
 
 async function postCall(url, data) {
-    console.log(url, data)
     try{
         const res_data = await axios.post(url , data)
         if( res_data.status >= 200 && res_data.status < 300){
@@ -36,7 +35,7 @@ async function postCall(url, data) {
 async function patchCall(url, data) {
     try{
         const res_data = await axios.patch(url , data)
-        if( res_data.statusText == 'OK'){
+        if( res_data.status >= 200 && res_data.status < 300){
             return res_data.data
         } else{
             throw new Error("Error  Method : PATCH -  URL : "+url);
@@ -51,7 +50,7 @@ async function patchCall(url, data) {
 async function putCall(url, data) {
     try{
         const res_data = await axios.put(url , data)
-        if( res_data.statusText == 'OK'){
+        if( res_data.status >= 200 && res_data.status < 300 ){
             return res_data.data
         } else{
             throw new Error("Error  Method : PUT -  URL : "+url);
@@ -66,7 +65,7 @@ async function putCall(url, data) {
 async function deleteCall(url) {
     try{
         const res_data = await axios.delete(url)
-        if( res_data.statusText == 'OK'){
+        if( res_data.status >= 200 && res_data.status < 300 ){
             return res_data.data
         } else{
             throw new Error("Error  Method : DELETE -  URL : "+url);
