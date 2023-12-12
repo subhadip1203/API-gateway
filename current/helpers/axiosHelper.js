@@ -82,19 +82,19 @@ async function deleteCall(url) {
 async function axiosCall(url , method, data = {}) {
     try{
         if (method == "GET"){
-            return getCall(url)  
+            return await getCall(url)  
         }
         else if (method.toUpperCase() == "POST"){
-            return postCall(url, data)
+            return await postCall(url, data)
         }
         else if (method.toUpperCase() == "PATCH"){
-            return patchCall(url, data)
+            return await patchCall(url, data)
         }
         else if (method.toUpperCase() == "PUT"){
-            return putCall(url, data)
+            return await putCall(url, data)
         }
         else if (method.toUpperCase() == "DELETE"){
-            return deleteCall(url)
+            return await deleteCall(url)
         }
     } catch(err){
         console.log('Error in Axios call')

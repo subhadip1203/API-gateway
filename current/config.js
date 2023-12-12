@@ -1,56 +1,63 @@
-const config = [{
-    incomingURL: "/v1/test/:id",
-    incomingMethod: "GET",
-    destination: [
-        {
-            url: 'https://jsonplaceholder.typicode.com/todos/:id',
-            method: "GET",
-            responseName: 'x'
-        },
-        {
-            url: 'https://jsonplaceholder.typicode.com/posts',
-            method: "POST",
-            dataToSend: {
-                title: 'foo',
-                body: 'bar',
-                userId: "x.userId"
+
+
+const config = [
+
+
+    {
+        incomingURL: "/v1/test1/:id",
+        incomingMethod: "GET",
+        destination: [
+            {
+                method: 'GET',
+                url: 'http://127.0.0.1:8000/items/:id',
+                responseName: 'x'
+            }, 
+             {
+                method: 'GET',
+                url: 'https://jsonplaceholder.typicode.com/todos/:x.user_id',
+                responseName: 'y',
+            }
+        ],
+        result: {
+            data : { 
+                id : "x.item_id" , 
+                title : "y.title"
+            }
+        }
+    },
+
+
+
+    {
+        incomingURL: "/v1/test2",
+        incomingMethod: "POST",
+        destination: [
+            {
+                url: 'http://127.0.0.1:8000/items/',
+                method: "POST",
+                responseName: 'x'
             },
-            responseName: 'y'
+            {
+                url: 'https://jsonplaceholder.typicode.com/posts',
+                method: "POST",
+                dataToSend: {
+                    "title": "iphone title",
+                    "body": "some body",
+                    "itemId": "x.id"
+                },
+                responseName: 'y'
+            }
+        ],
+        result: {
+            data : { 
+                name : "x.name" , 
+                title : "y.title",
+                id: "y.id"
+            }
         }
-    ],
-    result: {
-        product : ["x.id" , "x.title"] , 
-        user : { 
-            id : "y.id" , 
-            title : "y.title"
-        }
-    }
-},
+    },
 
 
-
-// {
-//     incomingURL: "/v1/test/:id",
-//     incomingMethod: "GET",
-//     destination: [
-//         {
-//             method: 'GET',
-//             url: 'https://jsonplaceholder.typicode.com/todos/:id',
-//             responseName: 'x'
-//         }, 
-//          {
-//             input: ({x,id}) => {
-//                 return x.data/id;
-//             },
-//             method: 'GET',
-//             url: 'https://jsonplaceholder.typicode.com/todos/:id/:x',
-//             responseName: 'y',
-//             responseFunc : ({res,id}) => {
-//                 return res*id
-//             }
-//         }
-//     ]
-// }
 ]
 
 module.exports = config;

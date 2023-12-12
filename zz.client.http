@@ -1,0 +1,18 @@
+###
+GET http://localhost:3000
+Content-Type: application/json
+
+###
+GET http://localhost:3000/v1/test1/1
+Content-Type: application/json
+
+
+###
+POST http://localhost:3000/v1/test2
+Content-Type: application/json
+
+{
+    "name": "iPhone",
+    "description": "iPhone 12 Pro Max",
+    "price": 1000
+}

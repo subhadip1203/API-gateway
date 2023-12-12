@@ -18,8 +18,8 @@ config.forEach((route) =>  {
         app.get(route.incomingURL, async (req , res) => {
             try{
                 const requestParams = req.params
-                const requestbody = req.body
-                const result = await apiCalls(route.destination , route.result,  requestParams , requestbody)
+        
+                const result = await apiCalls(route.destination , route.result,  requestParams)
                 res.send(result)
             } catch(err){
                 console.log(err)
@@ -29,26 +29,57 @@ config.forEach((route) =>  {
 
     } else if(route.incomingMethod === 'POST'){
         app.post(route.incomingURL, async function(req , res){
-            res.send({ok:'ok'})
+            try{
+                const requestParams = req.params
+                const requestbody = req.body
+                const result = await apiCalls(route.destination , route.result,  requestParams , requestbody)
+                res.send(result)
+            } catch(err){
+                console.log(err)
+                res.status(500).send({ errmsg: err.message})
+            }
         })
 
     } else if(route.incomingMethod === 'PUT'){
         app.put(route.incomingURL, async function(req , res){
-            res.send({ok:'ok'})
+            try{
+                const requestParams = req.params
+                const requestbody = req.body
+                const result = await apiCalls(route.destination , route.result,  requestParams , requestbody)
+                res.send(result)
+            } catch(err){
+                console.log(err)
+                res.status(500).send({ errmsg: err.message})
+            }
         })
         
     } else if(route.incomingMethod === 'PATCH'){
         app.patch(route.incomingURL, async function(req , res){
-            res.send({ok:'ok'})
+            try{
+                const requestParams = req.params
+                const requestbody = req.body
+                const result = await apiCalls(route.destination , route.result,  requestParams , requestbody)
+                res.send(result)
+            } catch(err){
+                console.log(err)
+                res.status(500).send({ errmsg: err.message})
+            }
         })
         
     }else if(route.incomingMethod === 'DELETE'){
         app.delete(route.incomingURL, async function(req , res){
-            res.send({ok:'ok'})
+            try{
+                const requestParams = req.params
+                const result = await apiCalls(route.destination , route.result,  requestParams)
+                res.send(result)
+            } catch(err){
+                console.log(err)
+                res.status(500).send({ errmsg: err.message})
+            }
         })
     } else {
         app.all(route.incomingURL, async function(req , res){
-            res.send({ok:'ok'})
+            res.send({message:'Method not allowed'})
         })
     } 
 })

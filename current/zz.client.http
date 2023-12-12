@@ -1,7 +1,0 @@
-###
-GET http://localhost:3000
-Content-Type: application/json
-
-###
-GET http://localhost:3000/v1/test/1
-Content-Type: application/json
